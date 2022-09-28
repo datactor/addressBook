@@ -1,0 +1,15 @@
+Managements: jaemin2, bundang
+Managements: sunny, nonhyun
+Develops: jaemin, nonhyun
+Develops: jaemin6, bundang
+Develops: jaemin, bundang
+Engineering: 재민, 분당
+Legal: hanna, seocho
+Develops: jaemin nam, bundang
+CustomerService: ami, yeoksam
+Develops: JAEMIN NAM, bundang
+Sales: jaemin4, bundang
+Engineering: jaemin3, bundang
+Legal: jaemin5, bundang
+Develops: JAEMIN, bundang
+CustomerService: jaemin7, bundang

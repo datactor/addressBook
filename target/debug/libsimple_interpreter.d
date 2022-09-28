@@ -1,0 +1,1 @@
+/home/jam/workspace/rust/base/08/exam/addressbook/target/debug/libsimple_interpreter.rlib: /home/jam/workspace/rust/base/08/exam/addressbook/src/handler.rs /home/jam/workspace/rust/base/08/exam/addressbook/src/lib.rs /home/jam/workspace/rust/base/08/exam/addressbook/src/structs.rs
