@@ -1,16 +1,18 @@
 #![allow(non_snake_case)]
 use crate::{structs, handler};
 use std::fs::File;
+use std::io::ErrorKind;
 
 pub fn run(fileName: &str) {
     let mut addressBook = structs::AddressBook::new();
     let file = File::open(fileName);
     match file {
         Ok(f) => f,
-        Err(error) => {
-            println!("The file is not exists. Create the file, {:?}", error);
-            File::create(fileName).expect("File creating error")
+        Err(ref error) if error.kind() == ErrorKind::NotFound => {
+            println!("The file is not exists. Create the file");
+            File::create(fileName).expect("File creating failure")
         },
+        Err(e) => panic!("There was a problem opening the file: {:?}", e)
     };
     addressBook.readBook(fileName);
     println!(

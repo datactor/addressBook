@@ -29,7 +29,7 @@ pub enum Divisions {
     Etc,
 }
 
-fn divChecker(division: String) -> Divisions {
+fn divChecker(division: String, rowNumb: u32) -> Divisions {
     match division.as_str() {
         "Engineering" => return Divisions::Engineering,
         "Sales" => return Divisions::Sales,
@@ -38,7 +38,7 @@ fn divChecker(division: String) -> Divisions {
         "Managements" => return Divisions::Managements,
         "CustomerService" => return Divisions::CustomerService,
         "Etc" => return Divisions::Etc,
-        _ => panic!("{:?} is not valid department", division)
+        _ => panic!("{:?} is not valid department in file row {}", division, rowNumb)
     }
 }
 
@@ -59,15 +59,36 @@ impl AddressBook {
         let fileData: String = fs::read_to_string(fileName)
             .expect("File reading failure");
         let row = fileData.split("\n");
+        let mut rowNum: u32 = 0;
         for r in row {
+            rowNum += 1;
             if r.is_empty() == false {
                 let mut divSlice = r.split(": ");
                 let div = divSlice.next().unwrap().to_string();
-                let person = divSlice.next().unwrap();
-                let mut personSlice = person.split(", ");
-                let name = personSlice.next().unwrap().to_string();
-                let address = personSlice.next().unwrap().to_string();
-                self.inner.insert(Person::new(&name, &address), divChecker(div));
+                let person = divSlice.next();
+                match person {
+                    Some(p) => {
+                        let mut personSlice = p.split(", ");
+                        let name_address = personSlice.next();
+                        match name_address {
+                            Some(n) => {
+                                let name = n.to_string();
+                                let add = personSlice.next();
+                                match add {
+                                    Some(address) => {
+                                        self.inner.insert(
+                                            Person::new(&name, &address.to_string()),
+                                            divChecker(div, rowNum)
+                                        );
+                                    },
+                                    None => panic!("Cannot specify address in file row {}", rowNum),
+                                };
+                            },
+                            None => panic!("Cannot specify Name in file row {}", rowNum),
+                        };
+                    },
+                    None => panic!("Cannot specify Divisions in file row {}", rowNum),
+                };
             }
         }
     }
